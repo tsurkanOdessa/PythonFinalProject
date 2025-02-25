@@ -35,6 +35,8 @@ class Searcher:
                 text += " AND film.release_year BETWEEN %s AND %s"
                 params.append(start_year)
                 params.append(end_year)
+            elif year == 'old':
+                text += " AND film.release_year 1980"
             else:
                 text += " AND film.release_year = %(year)s"
                 params['year'] = int(year)
