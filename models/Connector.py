@@ -15,7 +15,7 @@ class Connector:
             config.read('settings.ini')
         except configparser.Error as e:
             print(f"Ошибка! Отсутствует, либо пустой файл settings.ini: {e}")
-            return None
+            return self.connection, self.cursor
 
         host = config[settings_name]['host']
         user = config[settings_name]['user']
@@ -33,7 +33,7 @@ class Connector:
                 return self.connection, self.cursor
         except Error as e:
             print(f"Ошибка: {e}")
-            return None
+            return self.connection, self.cursor
 
     def close_connect(self):
         if self.connection.is_connected():
