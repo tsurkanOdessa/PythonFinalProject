@@ -1,4 +1,5 @@
 from models.Connector import Connector
+from models.Loger import Loger
 
 
 class Searcher:
@@ -21,7 +22,11 @@ class Searcher:
         if query is not None:
             text = text.replace("2 = 2", "film.title LIKE %s")
             params.append("%" + query + "%")
-
+            try:
+                logger = Loger()
+                logger.log_query(query)
+            except Exception as e:
+                print(f"Ошибка логирования запроса: {e}")
 
         if year is not None:
             if year.endswith('s'):
@@ -35,6 +40,7 @@ class Searcher:
                 params['year'] = int(year)
 
         return text, params
+
 
     def get_films(self, query=None, genre=None, year=None):
         db_connector = Connector()
@@ -66,3 +72,4 @@ class Searcher:
             finally:
                 db_connector.close_connect()
         return genres
+

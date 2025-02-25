@@ -1,8 +1,17 @@
+from flask import Flask
+from controllers.SearchController import display_found_films
+from models.Loger import Loger
 from models.Searcher import Searcher
 
 
 def run_web_app():
-    return None
+    app = Flask(__name__, template_folder='views/templates', static_folder='views/templates/css')
+
+    @app.route('/', methods=['GET', 'POST'])
+    def index():
+        return display_found_films()
+
+    app.run()
 
 def run_console_app():
     while True:
@@ -39,9 +48,17 @@ def run_console_app():
             print_films(films)
 
         elif search_choice == '3':
-            break
+            logger = Loger()
+            top_queries = logger.get_top_queries()
+            print("Топ-10 запросов по количеству:")
+            for query, count in top_queries:
+                print(f"{query}: {count}")
         elif search_choice == '4':
-            break
+            logger = Loger()
+            recent_queries = logger.get_recent_queries()
+            print("Последние 10 запросов:")
+            for query, date_query in recent_queries:
+                print(f"{date_query}: {query}")
         elif search_choice == 'B':
             break
 
