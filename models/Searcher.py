@@ -1,3 +1,5 @@
+from models.Connector import Connector
+
 
 class Searcher:
 
@@ -33,3 +35,18 @@ class Searcher:
                 params['year'] = int(year)
 
         return text, params
+
+    def get_films(self, query=None, genre=None, year=None):
+        db_connector = Connector()
+        connection, cursor = db_connector.get_db_connection('database')
+
+        if connection:
+            try:
+                with connection.cursor() as cursor:
+                    sql, params = self.get_text_of_query(query, genre, year)
+                    cursor.execute(sql, params)
+                    return cursor.fetchall()
+            except Exception as e:
+                print(f"Ошибка при получении фильмов: {e}")
+            finally:
+                db_connector.close_connect()
