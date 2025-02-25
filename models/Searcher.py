@@ -50,3 +50,19 @@ class Searcher:
                 print(f"Ошибка при получении фильмов: {e}")
             finally:
                 db_connector.close_connect()
+
+    def get_genres(self):
+        db_connector = Connector()
+        connection, cursor = db_connector.get_db_connection('database')
+        genres = []
+
+        if connection:
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT name FROM category")
+                    genres = cursor.fetchall()
+            except Exception as e:
+                print(f"Ошибка при получении жанров: {e}")
+            finally:
+                db_connector.close_connect()
+        return genres
