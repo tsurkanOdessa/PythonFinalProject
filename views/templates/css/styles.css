@@ -193,3 +193,26 @@ input[type="text"]:focus {
     border-bottom: 1px solid #ddd;
     font-size: 14px;
 }
+
+.film-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.film-card h2 {
+    margin: 0 0 10px;
+    color: #333;
+}
+
+.description {
+    font-size: 14px;
+    color: #666;
+}
+
+.actors {
+    font-weight: bold;
+    color: #444;
+}

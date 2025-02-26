@@ -20,7 +20,7 @@ def run_console_app():
         print("2. Поиск по Наименованию")
         print("3. ТОП запросов поиска фильмов по популярности")
         print("4. ТОП запросов поиска фильмов по дате")
-        print("B. Выход (Back) - для возврата в предыдущее меню")
+        print("Q. Выход")
 
         search_choice = input("Введите ваш выбор: ").strip().upper()
         searcher_in_db = Searcher()
@@ -36,7 +36,7 @@ def run_console_app():
         elif search_choice == '4':
             show_recent_queries()
 
-        elif search_choice == 'B':
+        elif search_choice == 'Q':
             break
 
 def search_by_genre(searcher_in_db):
@@ -88,27 +88,23 @@ def print_films(films):
                 break
 
 
-
-
 def main():
-    while True:
-        print("Выберите вариант запуска приложения:")
-        print("1. Веб-режим")
-        print("2. Консольный режим")
-        print("Q. Выход")
+    print("Выберите вариант запуска приложения:")
+    print("1. Веб-режим")
+    print("2. Консольный режим")
+    print("Q. Выход")
 
-        choice = input("Сделайте выбор (1, 2 или Q для выхода): ").strip().upper()
+    choice = input("Сделайте выбор (1, 2 или Q для выхода): ").strip().upper()
 
-        if choice == '1':
-            run_web_app()
-        elif choice == '2':
-            run_console_app()
-        elif choice == 'Q':
-            print("Выход из программы.")
-            break
-        else:
-            print("Неверный выбор. Пожалуйста, введите 1, 2 или Q.")
-            main()
+    if choice == '1':
+        run_web_app()
+    elif choice == '2':
+        run_console_app()
+    elif choice == 'Q':
+        print("Выход из программы.")
+    else:
+        print("Неверный выбор. Пожалуйста, введите 1, 2 или Q.")
+        main()
 
 if __name__ == '__main__':
     main()
