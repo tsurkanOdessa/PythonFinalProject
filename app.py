@@ -2,6 +2,7 @@ from flask import Flask
 from controllers.SearchController import display_found_films
 from models.Loger import Loger
 from models.Searcher import Searcher
+from models.TelegramBot import TelegramBot
 
 
 def run_web_app():
@@ -60,6 +61,8 @@ def search_by_genre(searcher_in_db):
 def search_by_name(searcher_in_db):
     film_name = input("Введите наименование фильма: ").strip()
     films = searcher_in_db.get_films(film_name, None, None)
+    if not films:
+        print(f'Фильмы c наименованием {film_name} не найдены.')
     print_films(films)
 
 def show_top_queries():
@@ -77,9 +80,15 @@ def show_recent_queries():
         print(f"{date_query}: {query}")
 
 def print_films(films):
+
     count = 0
-    for film in films:
-        print(f"{count + 1}. {film[0]} - ({film[1]})")
+    films_dict = {}
+    for title, description, _, _ in films:
+        if title not in films_dict:
+            films_dict[title] = description
+
+    for title, description in films_dict.items():
+        print(f"{title} - {description}")
         count += 1
 
         if count % 10 == 0 and count < len(films):
@@ -92,6 +101,7 @@ def main():
     print("Выберите вариант запуска приложения:")
     print("1. Веб-режим")
     print("2. Консольный режим")
+    print("3. Telegramm-Bot")
     print("Q. Выход")
 
     choice = input("Сделайте выбор (1, 2 или Q для выхода): ").strip().upper()
@@ -100,6 +110,9 @@ def main():
         run_web_app()
     elif choice == '2':
         run_console_app()
+    elif choice == '3':
+        bot = TelegramBot()
+        bot.start_bot()
     elif choice == 'Q':
         print("Выход из программы.")
     else:
