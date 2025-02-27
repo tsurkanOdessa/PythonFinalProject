@@ -1,7 +1,7 @@
 import configparser
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext, ApplicationBuilder
-
+import asyncio
 from models.Connector import Connector
 from models.Searcher import Searcher
 
@@ -13,6 +13,7 @@ class TelegramBot:
             config = configparser.ConfigParser()
             config.read('settings.ini')
             self.key = config['telegram']['key']
+            self.delete_message = config['telegram']['delete_message']
         except configparser.Error as e:
             self.key = None
             print(f"Ошибка! Отсутствует, либо пустой файл settings.ini: {e}")
@@ -22,6 +23,7 @@ class TelegramBot:
         await update.message.reply_text('Введите /byName и название фильма, что-бы найти фильм по наименованию ')
         await update.message.reply_text('Введите /byGenre и название жанра ,что-бы найти фильмы по жанру ')
         await update.message.reply_text('Введите /getGenres что-бы посмотреть жанры фильмов')
+        await update.message.reply_text('Введите /cancel что-бы выйти')
 
     async def search_film_by_name(self, update: Update, context: CallbackContext) -> None:
         if not context.args:
@@ -100,6 +102,24 @@ class TelegramBot:
         update.message.reply_text("Введите название")
         return None
 
+    async def cancel(self, update: Update, context: CallbackContext) -> None:
+        if self.delete_message != 1:
+            try:
+                chat_id = update.message.chat_id
+                message_id = update.message.message_id
+                await update.message.delete()
+                for i in range(15):
+                    print('message_id ' + str(message_id) + str(message_id - i))
+                    try:
+                        await context.bot.delete_message(chat_id=chat_id, message_id=message_id - i)
+                        await asyncio.sleep(0.2)
+                    except Exception:
+                        pass
+            except Exception as e:
+                print(f"Ошибка: {e}")
+
+        context.user_data.clear()
+
     def start_bot(self):
         application = ApplicationBuilder().token(self.key).build()
 
@@ -107,6 +127,5 @@ class TelegramBot:
         application.add_handler(CommandHandler("byName", self.search_film_by_name))
         application.add_handler(CommandHandler("byGenre", self.search_film_by_genre))
         application.add_handler(CommandHandler("getGenres", self.get_genres))
+        application.add_handler(CommandHandler("cancel", self.cancel))
         application.run_polling()
-
-
