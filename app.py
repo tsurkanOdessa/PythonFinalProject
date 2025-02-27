@@ -1,3 +1,5 @@
+import configparser
+
 from flask import Flask
 from controllers.SearchController import display_found_films
 from models.Loger import Loger
@@ -75,11 +77,15 @@ def show_top_queries():
 def show_recent_queries():
     logger = Loger()
     recent_queries = logger.get_recent_queries()
-    print("Последние 10 запросов:")
+    print("Топ-10 запросов по дате:")
     for query, date_query in recent_queries:
         print(f"{date_query}: {query}")
 
 def print_films(films):
+
+    config = configparser.ConfigParser()
+    config.read('settings.ini')
+    quantity_of_films = config['app']['quantity_of_films']
 
     count = 0
     films_dict = {}
@@ -91,8 +97,8 @@ def print_films(films):
         print(f"{title} - {description}")
         count += 1
 
-        if count % 10 == 0 and count < len(films):
-            choice = input("Нажмите N (Next) чтобы показать следующие 10 фильмов или Q (Quit) для выхода: ").strip().lower()
+        if count % quantity_of_films == 0 and count < len(films):
+            choice = input(f"Нажмите N (Next) чтобы показать следующие {quantity_of_films}  фильмов или Q (Quit) для выхода: ").strip().lower()
             if choice == 'q':
                 break
 
@@ -101,7 +107,7 @@ def main():
     print("Выберите вариант запуска приложения:")
     print("1. Веб-режим")
     print("2. Консольный режим")
-    print("3. Telegramm-Bot")
+    print("3. Telegram-Bot")
     print("Q. Выход")
 
     choice = input("Сделайте выбор (1, 2 или Q для выхода): ").strip().upper()
