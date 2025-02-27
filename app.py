@@ -112,7 +112,9 @@ def main():
     print("3. Telegram-Bot")
     print("Q. Выход")
 
-    choice = input("Сделайте выбор (1, 2 или Q для выхода): ").strip().upper()
+    offer_of_choice = "Введите 1, 2 ,3 или Q."
+
+    choice = input(f"Сделайте выбор: ({offer_of_choice}): ").strip().upper()
 
     if choice == '1':
         run_web_app()
@@ -124,7 +126,7 @@ def main():
     elif choice == 'Q':
         print("Выход из программы.")
     else:
-        print("Неверный выбор. Пожалуйста, введите 1, 2 или Q.")
+        print(f"Неверный выбор. {offer_of_choice}:")
         main()
 
 if __name__ == '__main__':
