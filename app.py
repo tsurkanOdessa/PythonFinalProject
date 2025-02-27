@@ -85,24 +85,26 @@ def print_films(films):
 
     config = configparser.ConfigParser()
     config.read('settings.ini')
-    quantity_of_films = config['app']['quantity_of_films']
+    quantity_of_films = int(config['app']['quantity_of_films'])
+    print(quantity_of_films)
     if not quantity_of_films:
         quantity_of_films = 10
 
-    count = 0
-    films_dict = {}
-    for title, description, _, _ in films:
-        if title not in films_dict:
-            films_dict[title] = description
+    if films:
+        count = 0
+        films_dict = {}
+        for title, description, _, _ in films:
+            if title not in films_dict:
+                films_dict[title] = description
 
-    for title, description in films_dict.items():
-        print(f"{title} - {description}")
-        count += 1
+        for title, description in films_dict.items():
+            print(f"{title} - {description}")
+            count += 1
 
-        if count % quantity_of_films == 0 and count < len(films):
-            choice = input(f"Нажмите N (Next) чтобы показать следующие {quantity_of_films}  фильмов или Q (Quit) для выхода: ").strip().lower()
-            if choice == 'q':
-                break
+            if count % quantity_of_films == 0 and count < len(films):
+                choice = input(f"Нажмите N (Next) чтобы показать следующие {quantity_of_films}  фильмов или Q (Quit) для выхода: ").strip().lower()
+                if choice == 'q':
+                    break
 
 
 def main():
