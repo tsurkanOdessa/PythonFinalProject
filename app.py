@@ -86,7 +86,7 @@ def print_films(films):
     config = configparser.ConfigParser()
     config.read('settings.ini')
     quantity_of_films = int(config['app']['quantity_of_films'])
-    print(quantity_of_films)
+
     if not quantity_of_films:
         quantity_of_films = 10
 
