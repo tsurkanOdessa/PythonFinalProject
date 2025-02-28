@@ -36,7 +36,7 @@ class Searcher:
                 print(f"Ошибка логирования запроса: {e}")
 
         if year is not None:
-            if year.endswith('s'):
+            if str(year).endswith('s'):
                 start_year = int(year[:-1])
                 end_year = start_year + 9
                 text += f" AND film.release_year BETWEEN %(start_year)s AND %(end_year)s"
@@ -47,6 +47,7 @@ class Searcher:
             else:
                 text += " AND film.release_year = %(year)s"
                 params['year'] = int(year)
+
 
         if actor is not None:
             text += " AND CONCAT(films_actor.first_name, ' ', films_actor.last_name) = %(actor)s"
