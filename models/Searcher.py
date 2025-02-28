@@ -48,7 +48,6 @@ class Searcher:
                 text += " AND film.release_year = %(year)s"
                 params['year'] = int(year)
 
-
         if actor is not None:
             text += " AND CONCAT(films_actor.first_name, ' ', films_actor.last_name) = %(actor)s"
             params['actor'] = actor
