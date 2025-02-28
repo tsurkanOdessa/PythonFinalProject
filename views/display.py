@@ -30,7 +30,7 @@ def search_films():
     genre = genre_var.get() or None
     year = year_entry.get() or None
     actor = actor_entry.get() or None
-    print(title, genre, year, actor)
+
     try:
         results = searcher_in_db.get_films(
             title if title else None,
