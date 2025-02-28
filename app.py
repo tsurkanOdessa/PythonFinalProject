@@ -5,6 +5,7 @@ from controllers.SearchController import display_found_films
 from models.Loger import Loger
 from models.Searcher import Searcher
 from models.TelegramBot import TelegramBot
+from views import display
 
 
 def run_web_app():
@@ -138,9 +139,10 @@ def main():
     print("1. Веб-режим")
     print("2. Консольный режим")
     print("3. Telegram-Bot")
+    print("4. Display")
     print("Q. Выход")
 
-    offer_of_choice = "Введите 1, 2 ,3 или Q."
+    offer_of_choice = "Введите 1, 2, 3, 4 или Q."
 
     choice = input(f"Сделайте выбор: ({offer_of_choice}): ").strip().upper()
 
@@ -151,6 +153,8 @@ def main():
     elif choice == '3':
         bot = TelegramBot()
         bot.start_bot()
+    elif choice == '4':
+        display.run()
     elif choice == 'Q':
         print("Выход из программы.")
     else:
