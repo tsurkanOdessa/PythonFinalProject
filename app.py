@@ -23,6 +23,8 @@ def run_console_app():
         print("2. Поиск по Наименованию")
         print("3. ТОП запросов поиска фильмов по популярности")
         print("4. ТОП запросов поиска фильмов по дате")
+        print("5. Поиск по жанру и году")
+        print("6. Поиск по Наименованию и году")
         print("Q. Выход")
 
         search_choice = input("Введите ваш выбор: ").strip().upper()
@@ -39,30 +41,46 @@ def run_console_app():
         elif search_choice == '4':
             show_recent_queries()
 
+        if search_choice == '5':
+            search_by_genre(searcher_in_db, True)
+
+        elif search_choice == '6':
+            search_by_name(searcher_in_db, True)
+
         elif search_choice == 'Q':
             break
 
-def search_by_genre(searcher_in_db):
+def search_by_genre(searcher_in_db, search_by_year = None):
     genres = searcher_in_db.get_genres()
     print("Доступные жанры:")
     for index, genre in enumerate(genres, start=1):
         print(f"{index}. {genre}")
 
+    year = None
     genre_choice = input("Введите номер жанра: ").strip()
+
     try:
         genre_index = int(genre_choice) - 1
         if 0 <= genre_index < len(genres):
             selected_genre = genres[genre_index][0]
-            films = searcher_in_db.get_films(None, selected_genre, None)
+
+            if search_by_year:
+                year = get_input_year()
+
+            films = searcher_in_db.get_films(None, selected_genre, year)
             print_films(films)
         else:
             print("Неверный выбор жанра.")
     except ValueError:
         print("Пожалуйста, введите корректный номер.")
 
-def search_by_name(searcher_in_db):
+def search_by_name(searcher_in_db, search_by_year = None):
+
     film_name = input("Введите наименование фильма: ").strip()
-    films = searcher_in_db.get_films(film_name, None, None)
+    if search_by_year:
+        year = get_input_year()
+
+    films = searcher_in_db.get_films(film_name, None, year)
     if not films:
         print(f'Фильмы c наименованием {film_name} не найдены.')
     print_films(films)
@@ -93,12 +111,12 @@ def print_films(films):
     if films:
         count = 0
         films_dict = {}
-        for title, description, _, _ in films:
+        for title, description, _, year in films:
             if title not in films_dict:
-                films_dict[title] = description
+                films_dict[title] = (description, year)
 
-        for title, description in films_dict.items():
-            print(f"{title} - {description}")
+        for title, (description, year) in films_dict.items():
+            print(f"{title} - {description} - {year} год.")
             count += 1
 
             if count % quantity_of_films == 0 and count < len(films):
@@ -106,6 +124,13 @@ def print_films(films):
                 if choice == 'q':
                     break
 
+def get_input_year():
+    while True:
+        year = input("Введите год: ").strip()
+        if year.isdigit() and len(year) == 4:
+            return int(year)
+        else:
+            print("Ошибка! Введите 4-значный год (например, 2025).")
 
 def main():
     print("Выберите вариант запуска приложения:")
