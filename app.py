@@ -75,6 +75,7 @@ def search_by_genre(searcher_in_db, search_by_year = None):
         print("Пожалуйста, введите корректный номер.")
 
 def search_by_name(searcher_in_db, search_by_year = None):
+    year = None
 
     film_name = input("Введите наименование фильма: ").strip()
     if search_by_year:
