@@ -1,11 +1,12 @@
 import configparser
 
 from flask import Flask
+
+from controllers import DisplayController
 from controllers.SearchController import display_found_films
 from models.Loger import Loger
 from models.Searcher import Searcher
 from models.TelegramBot import TelegramBot
-from views import display
 
 
 def run_web_app():
@@ -154,7 +155,7 @@ def main():
         bot = TelegramBot()
         bot.start_bot()
     elif choice == '4':
-        display.run()
+        DisplayController.run_display()
     elif choice == 'Q':
         print("Выход из программы.")
     else:

@@ -68,7 +68,7 @@ def recent_queries():
 def validate_numeric_input(P):
     return P.isdigit() or P == ""
 
-def run():
+def run_display():
     global title_entry, genre_var, year_entry, actor_entry, results_text
     genres = searcher_in_db.get_genres()
 
@@ -113,5 +113,3 @@ def run():
 
     root.mainloop()
 
-if __name__ == "__main__":
-    run()
