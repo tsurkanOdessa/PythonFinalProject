@@ -71,6 +71,7 @@ def validate_numeric_input(P):
 def run_display():
     global title_entry, genre_var, year_entry, actor_entry, results_text
     genres = searcher_in_db.get_genres()
+    genres.insert(0, "Все жанры")
 
     root = tk.Tk()
     vcmd = root.register(validate_numeric_input)
@@ -112,4 +113,5 @@ def run_display():
     results_text.pack()
 
     root.mainloop()
+
 

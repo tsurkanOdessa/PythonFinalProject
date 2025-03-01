@@ -23,7 +23,7 @@ class Searcher:
 
         params = {}
 
-        if genre is not None:
+        if genre is not None and genre != "Все жанры":
             text += " AND films_genre.genre = %(genre)s"
             params['genre'] = genre
         if title is not None:
