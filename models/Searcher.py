@@ -6,8 +6,12 @@ class Searcher:
 
     def get_text_of_query(self, title=None, genre=None, year=None, actor=None):
 
-        text = """SELECT film.title as title, film.description as description, 
-        CONCAT(films_actor.first_name, ' ', films_actor.last_name) AS actor, film.release_year AS year 
+        text = """SELECT 
+        film.title as title, 
+        film.description as description, 
+        CONCAT(films_actor.first_name, ' ', films_actor.last_name) AS actor, 
+        film.release_year AS year, 
+        films_genre.genre as genre
         FROM film
         JOIN  (SELECT film_category.film_id, category.name as genre
                   FROM film_category

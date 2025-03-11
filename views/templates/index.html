@@ -50,14 +50,14 @@
     <div class="content">
         {% if films %}
             {% set films_dict = {} %}
-            {% for title, description, actor, year in films %}
+            {% for title, description, actor, year, genre in films %}
                 {% if title not in films_dict %}
-                {% set films_dict = films_dict.update({title: {'description': description, 'year': year, 'actors': [actor]}}) %}
+                    {% set _ = films_dict.update({title: {'description': description, 'year': year, 'actors': [actor], 'genre': genre}}) %}
                 {% else %}
-                {% set films_dict = films_dict.update({title: {'description': films_dict[title].description, 'year':
-                films_dict[title].year, 'actors': films_dict[title].actors + [actor]}}) %}
+                    {% set _ = films_dict[title]['actors'].append(actor) %}
                 {% endif %}
             {% endfor %}
+
 
             {% for title, film_data in films_dict.items() %}
                 <div class="film-card">
@@ -75,7 +75,8 @@
                     {% if not loop.last %}, {% endif %}
                     {% endfor %}
                     </p>
-                    <p class="year">Год выпуска: {{ film_data.year }}</p>
+                    <p class="year">Год выпуска: {{film_data.year}}</p>
+                    <p class="year">Жанр: {{film_data.genre}}</p>
                 </div>
             {% endfor %}
         {% endif %}
