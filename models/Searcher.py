@@ -31,7 +31,7 @@ class Searcher:
             params['query'] = f"%{title}%"
             try:
                 logger = Loger()
-                logger.log_query(title)
+                logger.log_query(title.upper())
             except Exception as e:
                 print(f"Ошибка логирования запроса: {e}")
 
